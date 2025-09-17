@@ -19,6 +19,7 @@ function App() {
   // Store answers for all questions
   const [answers, setAnswers] = useState({});
   const [submitLoading, setSubmitLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   // Define survey sections and their options
   const surveyStructure = {
@@ -189,7 +190,10 @@ function App() {
       }
       // Optionally reset answers or show a thank you message
       setAnswers({});
-      alert('Thank you for submitting the survey!');
+      // Show toast notification
+      setShowToast(true);
+      // Hide toast after 4 seconds
+      setTimeout(() => setShowToast(false), 4000);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -423,6 +427,16 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="toast-notification">
+          <div className="toast-content">
+            <span className="toast-icon">✅</span>
+            <span className="toast-message">Survey Recorded</span>
+          </div>
+        </div>
+      )}
+      
       <div className="app-header">
         <h1>📋 Survey Participation</h1>
         <div className="user-nav">
