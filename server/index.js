@@ -13,6 +13,13 @@ const allowedOrigins = [
   "http://localhost:5173"
 ];
 
+// Middleware (must be before all routes)
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+app.use(express.json());
+
 // Submit all survey answers at once
 app.post('/api/survey/submit-all', async (req, res) => {
   try {
