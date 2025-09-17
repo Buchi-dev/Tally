@@ -1,0 +1,327 @@
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.questions-container {
+  flex: 2;
+  min-width: 300px;
+}
+
+.results-container {
+  flex: 1;
+  min-width: 250px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+  margin-bottom: 20px;
+}
+
+.question-text {
+  margin: 8px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.option-button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.option-button:hover {
+  background-color: #f0f0f0;
+}
+
+.tally-row {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tally-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tally-option {
+  background-color: #e9ecef;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.control-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.control-button:hover {
+  background-color: #0056b3;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 32px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.ps-logo {
+  width: 50px;
+  margin-right: 20px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  cursor: pointer;
+  font-weight: 500;
+  color: #222;
+  transition: color 0.3s;
+}
+
+.nav-links li:hover {
+  color: #0078d7;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Search Bar */
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 4px 6px;
+  background: #f9f9f9;
+}
+
+.search-container input {
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  padding: 6px;
+  background: transparent;
+  width: 150px;
+}
+
+.search-btn {
+  background-color: #0078d7;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+  background-color: #005fb3;
+}
+
+.sign-in-btn {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sign-in-btn:hover {
+  background-color: #f2f2f2;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 520px;
+  background: url('/hero-background.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.hero-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  max-width: 90%;
+}
+
+.hero-overlay h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.hero-overlay p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Hero image: playstation.png */
+.ps4-logo {
+  width: 1000px;            /* Change to adjust size */
+  height: auto;
+  margin: 30px 0;
+  margin-top: 270px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
+  /* You can adjust its position like this: */
+  /* margin-top, margin-bottom, margin-left, margin-right */
+}
+
+/* Main Content */
+.main-content {
+  padding: 40px 20px;
+}
+
+.featured-games {
+  margin: 40px 0;
+}
+
+.featured-games h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.game-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.game-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  width: 220px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.game-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.game-item h3 {
+  margin: 10px 0 6px;
+  font-size: 1.2rem;
+}
+
+.game-item p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* About Section */
+.about-us {
+  margin-top: 60px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-us h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.about-us p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Footer */
+.footer {
+  background-color: #282c34;
+  color: white;
+  padding: 15px;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 50px;
+}
