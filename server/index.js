@@ -32,10 +32,16 @@ const User = require('./models/User');
 const SurveyResponse = require('./models/SurveyResponse');
 
 const app = express();
+
+const allowedOrigins = [
+  "https://tally-orpin.vercel.app",
+  "http://localhost:5173"
+];
+
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "https://tally-orpin.vercel.app/",
+    origin: allowedOrigins,
     methods: ["GET", "POST"]
   }
 });
@@ -44,7 +50,7 @@ const PORT = 3001;
 
 // Middleware
 app.use(cors({
-  origin: "https://tally-orpin.vercel.app/",
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
