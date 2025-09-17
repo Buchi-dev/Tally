@@ -39,6 +39,43 @@ app.post('/api/survey/submit-all', async (req, res) => {
     // Save all responses in bulk
     await SurveyResponse.insertMany(responses);
 
+    // Immediately recalculate and broadcast updated tallies
+    const tallies = await SurveyResponse.aggregate([
+      {
+        $group: {
+          _id: {
+            questionId: '$questionId',
+            selectedOption: '$selectedOption'
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $group: {
+          _id: '$_id.questionId',
+          options: {
+            $push: {
+              option: '$_id.selectedOption',
+              count: '$count'
+            }
+          }
+        }
+      }
+    ]);
+
+    // Format the response
+    const formattedTallies = {};
+    tallies.forEach(item => {
+      formattedTallies[item._id] = {};
+      item.options.forEach(opt => {
+        formattedTallies[item._id][opt.option] = opt.count;
+      });
+    });
+
+    // Broadcast updated tallies to all connected clients
+    io.emit('tallies-updated', formattedTallies);
+    console.log('📡 Broadcasted tallies update after bulk submit');
+
     res.status(201).json({ success: true, count: responses.length });
   } catch (error) {
     console.error('Error submitting all survey responses:', error);

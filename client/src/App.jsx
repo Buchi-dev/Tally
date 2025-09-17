@@ -20,6 +20,9 @@ function App() {
   const [answers, setAnswers] = useState({});
   const [submitLoading, setSubmitLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [talliesLoading, setTalliesLoading] = useState(true);
+  const [dataUpdated, setDataUpdated] = useState(false);
 
   // Define survey sections and their options
   const surveyStructure = {
@@ -107,10 +110,26 @@ function App() {
 
   // Socket.IO setup
   useEffect(() => {
+    // Socket connection events
+    socket.on('connect', () => {
+      console.log('🔗 Socket connected');
+      setSocketConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('🔌 Socket disconnected');
+      setSocketConnected(false);
+    });
+
     // Listen for real-time tally updates
     socket.on('tallies-updated', (newTallies) => {
       console.log('📡 Received real-time tally update:', newTallies);
       setTallies(newTallies);
+      setTalliesLoading(false); // Stop loading when real-time data arrives
+      
+      // Show update indicator
+      setDataUpdated(true);
+      setTimeout(() => setDataUpdated(false), 2000);
     });
 
     // Listen for new responses (admin view)
@@ -123,6 +142,8 @@ function App() {
     loadTallies();
 
     return () => {
+      socket.off('connect');
+      socket.off('disconnect');
       socket.off('tallies-updated');
       socket.off('new-response');
     };
@@ -194,6 +215,9 @@ function App() {
       setShowToast(true);
       // Hide toast after 4 seconds
       setTimeout(() => setShowToast(false), 4000);
+      
+      // Immediately request updated tallies for instant feedback
+      loadTallies();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -203,11 +227,14 @@ function App() {
 
   const loadTallies = async () => {
     try {
+      setTalliesLoading(true);
       const response = await fetch(`${API_BASE_URL}/survey/tallies`);
       const data = await response.json();
       setTallies(data);
     } catch (err) {
       console.error('❌ Error loading tallies:', err);
+    } finally {
+      setTalliesLoading(false);
     }
   };
 
@@ -496,10 +523,26 @@ function App() {
         <div className="results-container">
           <h2>📊 Live Results</h2>
           <div className="real-time-indicator">
-            <div className="pulse-dot"></div>
-            Real-time updates enabled
+            <div className={`pulse-dot ${socketConnected ? 'connected' : 'disconnected'}`}></div>
+            <span className="connection-status">
+              {socketConnected ? 'Real-time updates enabled' : 'Connecting...'}
+            </span>
+            {dataUpdated && (
+              <span className="data-updated-indicator">
+                ✨ Updated
+              </span>
+            )}
           </div>
-          {renderTallies()}
+          {talliesLoading ? (
+            <div className="loading-tallies">
+              <div className="loading-spinner-large"></div>
+              <p>Loading live results...</p>
+            </div>
+          ) : (
+            <div className={`tallies-container ${dataUpdated ? 'data-updated' : ''}`}>
+              {renderTallies()}
+            </div>
+          )}
         </div>
       </div>
     </div>
