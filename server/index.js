@@ -1,3 +1,18 @@
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const cors = require('cors');
+const connectDB = require('./config/config.mongoose');
+const User = require('./models/User');
+const SurveyResponse = require('./models/SurveyResponse');
+
+const app = express();
+
+const allowedOrigins = [
+  "https://tally-orpin.vercel.app",
+  "http://localhost:5173"
+];
+
 // Submit all survey answers at once
 app.post('/api/survey/submit-all', async (req, res) => {
   try {
@@ -23,20 +38,6 @@ app.post('/api/survey/submit-all', async (req, res) => {
     res.status(500).json({ error: 'Failed to submit all survey responses' });
   }
 });
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const cors = require('cors');
-const connectDB = require('./config/config.mongoose');
-const User = require('./models/User');
-const SurveyResponse = require('./models/SurveyResponse');
-
-const app = express();
-
-const allowedOrigins = [
-  "https://tally-orpin.vercel.app",
-  "http://localhost:5173"
-];
 
 const server = http.createServer(app);
 const io = socketIo(server, {
