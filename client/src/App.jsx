@@ -285,23 +285,47 @@ function App() {
     return (
       <div key={section} className="section">
         <h2>Section {section}: {sectionData.title}</h2>
-        {sectionData.questions && Object.entries(sectionData.questions).map(([questionNum, questionText]) => (
-          <div key={questionNum} className="question">
-            <h3>Q{questionNum}</h3>
-            <p className="question-text">{questionText}</p>
-            <div className="options">
-              {Array.isArray(sectionData.options) && sectionData.options.map(option => (
-                <button
-                  key={option}
-                  onClick={() => handleOptionClick(questionNum, option)}
-                  className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
+        {sectionData.questions && Object.entries(sectionData.questions).map(([questionNum, questionValue]) => {
+          // If questionValue is an object (with text/options), handle like section C
+          if (typeof questionValue === 'object' && questionValue !== null && 'text' in questionValue && 'options' in questionValue) {
+            return (
+              <div key={questionNum} className="question">
+                <h3>Q{questionNum}</h3>
+                <p className="question-text">{questionValue.text}</p>
+                <div className="options">
+                  {Array.isArray(questionValue.options) && questionValue.options.map(option => (
+                    <button
+                      key={option}
+                      onClick={() => handleOptionClick(questionNum, option)}
+                      className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          } else {
+            // Otherwise, treat as string question
+            return (
+              <div key={questionNum} className="question">
+                <h3>Q{questionNum}</h3>
+                <p className="question-text">{questionValue}</p>
+                <div className="options">
+                  {Array.isArray(sectionData.options) && sectionData.options.map(option => (
+                    <button
+                      key={option}
+                      onClick={() => handleOptionClick(questionNum, option)}
+                      className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+        })}
       </div>
     );
   };
