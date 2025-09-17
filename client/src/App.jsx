@@ -261,12 +261,12 @@ function App() {
       return (
         <div key={section} className="section">
           <h2>Section {section}: {sectionData.title}</h2>
-          {Object.entries(sectionData.questions).map(([questionNum, questionData]) => (
+          {sectionData.questions && Object.entries(sectionData.questions).map(([questionNum, questionData]) => (
             <div key={questionNum} className="question">
               <h3>Q{questionNum}</h3>
               <p className="question-text">{questionData.text}</p>
               <div className="options">
-                {questionData.options.map(option => (
+                {Array.isArray(questionData.options) && questionData.options.map(option => (
                   <button
                     key={option}
                     onClick={() => handleOptionClick(questionNum, option)}
@@ -285,12 +285,12 @@ function App() {
     return (
       <div key={section} className="section">
         <h2>Section {section}: {sectionData.title}</h2>
-        {Object.entries(sectionData.questions).map(([questionNum, questionText]) => (
+        {sectionData.questions && Object.entries(sectionData.questions).map(([questionNum, questionText]) => (
           <div key={questionNum} className="question">
             <h3>Q{questionNum}</h3>
             <p className="question-text">{questionText}</p>
             <div className="options">
-              {sectionData.options.map(option => (
+              {Array.isArray(sectionData.options) && sectionData.options.map(option => (
                 <button
                   key={option}
                   onClick={() => handleOptionClick(questionNum, option)}
@@ -308,11 +308,11 @@ function App() {
 
   // Render tally results
   const renderTallies = () => {
-    return Object.entries(tallies).map(([question, options]) => (
+    return tallies && Object.entries(tallies).map(([question, options]) => (
       <div key={question} className="tally-row">
         <h3>Q{question}</h3>
         <div className="tally-options">
-          {Object.entries(options).map(([option, count]) => (
+          {options && Object.entries(options).map(([option, count]) => (
             <div key={option} className="tally-option">
               <span className="option-name">{option}</span>
               <span className="option-count">{count}</span>
@@ -362,7 +362,7 @@ function App() {
           <div className="admin-section">
             <h2>📝 Recent Responses ({responses.length})</h2>
             <div className="responses-list">
-              {responses.map((response, index) => (
+              {Array.isArray(responses) && responses.map((response, index) => (
                 <div key={response._id || index} className="response-item">
                   <div className="response-header">
                     <span className="response-user">{response.userName}</span>
@@ -417,7 +417,7 @@ function App() {
       <div className="main-content">
         <div className="questions-container">
           <h2>Survey Questions</h2>
-          {Object.entries(surveyStructure).map(([section, data]) =>
+          {surveyStructure && Object.entries(surveyStructure).map(([section, data]) =>
             renderSection(section, data)
           )}
           <div style={{ marginTop: 32, textAlign: 'center' }}>
