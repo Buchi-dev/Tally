@@ -444,15 +444,39 @@ function App() {
           {surveyStructure && Object.entries(surveyStructure).map(([section, data]) =>
             renderSection(section, data)
           )}
-          <div style={{ marginTop: 32, textAlign: 'center' }}>
-            <button
-              className="submit-button"
-              onClick={submitAllResponses}
-              disabled={!allAnswered || submitLoading}
-            >
-              {submitLoading ? 'Submitting...' : 'Submit All Answers'}
-            </button>
-            {!allAnswered && <div style={{ color: 'red', marginTop: 8 }}>Please answer all questions before submitting.</div>}
+          <div className="submit-section">
+            <div className="submit-container">
+              <button
+                className={`submit-button ${!allAnswered ? 'disabled' : ''} ${submitLoading ? 'loading' : ''}`}
+                onClick={submitAllResponses}
+                disabled={!allAnswered || submitLoading}
+              >
+                {submitLoading ? (
+                  <>
+                    <div className="loading-spinner"></div>
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="submit-icon">📝</span>
+                    <span>Submit All Answers</span>
+                    <span className="submit-count">({Object.keys(answers).length} answered)</span>
+                  </>
+                )}
+              </button>
+              {!allAnswered && (
+                <div className="submit-warning">
+                  <span className="warning-icon">⚠️</span>
+                  Please answer all questions before submitting.
+                </div>
+              )}
+              {allAnswered && !submitLoading && (
+                <div className="submit-ready">
+                  <span className="ready-icon">✅</span>
+                  Ready to submit your responses
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <div className="results-container">
