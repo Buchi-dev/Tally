@@ -10,16 +10,16 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://tally-orpin.vercel.app/",
     methods: ["GET", "POST"]
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://tally-orpin.vercel.app/",
   credentials: true
 }));
 app.use(express.json());
