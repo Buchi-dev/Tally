@@ -16,6 +16,9 @@ function App() {
   const [currentView, setCurrentView] = useState('survey'); // 'survey' or 'admin'
   const [tallies, setTallies] = useState({});
   const [responses, setResponses] = useState([]);
+  // Store answers for all questions
+  const [answers, setAnswers] = useState({});
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   // Define survey sections and their options
   const surveyStructure = {
@@ -164,31 +167,33 @@ function App() {
     }
   };
 
-  const submitResponse = async (questionId, selectedOption) => {
-    if (!user) return;
 
+  // Submit all answers at once
+  const submitAllResponses = async () => {
+    if (!user) return;
+    setSubmitLoading(true);
+    setError("");
     try {
-      const response = await fetch(`${API_BASE_URL}/survey/submit`, {
+      const response = await fetch(`${API_BASE_URL}/survey/submit-all`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userId: user.id,
           userName: user.name,
-          questionId: questionId.toString(),
-          selectedOption
+          answers
         })
       });
-
       const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit response');
+        throw new Error(data.error || 'Failed to submit responses');
       }
-
-      console.log('✅ Response submitted:', data.response);
+      // Optionally reset answers or show a thank you message
+      setAnswers({});
+      alert('Thank you for submitting the survey!');
     } catch (err) {
-      console.error('❌ Error submitting response:', err);
       setError(err.message);
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -212,9 +217,9 @@ function App() {
     }
   };
 
-  // Handle option selection
-  const handleOptionClick = async (question, option) => {
-    await submitResponse(question, option);
+  // Handle option selection (just update local state)
+  const handleOptionClick = (question, option) => {
+    setAnswers(prev => ({ ...prev, [question]: option }));
   };
 
   // User Registration Screen
@@ -265,7 +270,7 @@ function App() {
                   <button
                     key={option}
                     onClick={() => handleOptionClick(questionNum, option)}
-                    className="option-button"
+                    className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
                   >
                     {option}
                   </button>
@@ -289,7 +294,7 @@ function App() {
                 <button
                   key={option}
                   onClick={() => handleOptionClick(questionNum, option)}
-                  className="option-button"
+                  className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
                 >
                   {option}
                 </button>
@@ -380,6 +385,18 @@ function App() {
   }
 
   // Survey view
+  // Get all required question numbers (excluding Demographics/Comments if optional)
+  const requiredQuestions = [];
+  Object.entries(surveyStructure).forEach(([section, sectionData]) => {
+    if (section === 'Demographics' || section === 'Comments') return; // skip optional
+    if (section === 'C') {
+      Object.keys(sectionData.questions).forEach(q => requiredQuestions.push(q));
+    } else {
+      Object.keys(sectionData.questions).forEach(q => requiredQuestions.push(q));
+    }
+  });
+  const allAnswered = requiredQuestions.every(q => answers[q]);
+
   return (
     <div className="app-container">
       <div className="app-header">
@@ -403,8 +420,17 @@ function App() {
           {Object.entries(surveyStructure).map(([section, data]) =>
             renderSection(section, data)
           )}
+          <div style={{ marginTop: 32, textAlign: 'center' }}>
+            <button
+              className="submit-button"
+              onClick={submitAllResponses}
+              disabled={!allAnswered || submitLoading}
+            >
+              {submitLoading ? 'Submitting...' : 'Submit All Answers'}
+            </button>
+            {!allAnswered && <div style={{ color: 'red', marginTop: 8 }}>Please answer all questions before submitting.</div>}
+          </div>
         </div>
-        
         <div className="results-container">
           <h2>📊 Live Results</h2>
           <div className="real-time-indicator">

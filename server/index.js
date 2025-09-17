@@ -1,3 +1,28 @@
+// Submit all survey answers at once
+app.post('/api/survey/submit-all', async (req, res) => {
+  try {
+    const { userId, userName, answers } = req.body;
+    if (!userId || !userName || !answers || typeof answers !== 'object') {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Prepare SurveyResponse documents for each answer
+    const responses = Object.entries(answers).map(([questionId, selectedOption]) => ({
+      userId,
+      userName,
+      questionId,
+      selectedOption
+    }));
+
+    // Save all responses in bulk
+    await SurveyResponse.insertMany(responses);
+
+    res.status(201).json({ success: true, count: responses.length });
+  } catch (error) {
+    console.error('Error submitting all survey responses:', error);
+    res.status(500).json({ error: 'Failed to submit all survey responses' });
+  }
+});
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
