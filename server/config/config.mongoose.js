@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
     // Use MongoDB Atlas connection string or local MongoDB
-    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tally_survey';
+    const mongoURI = 'mongodb+srv://hedtjyuzon_db_user:cGXDkzcnt8NDmUAt@cluster0.cz31cp2.mongodb.net/';
     
     await mongoose.connect(mongoURI);
     
