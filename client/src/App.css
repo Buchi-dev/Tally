@@ -250,6 +250,18 @@
   transform: translateY(-1px);
 }
 
+.option-button.selected {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  font-weight: 600;
+}
+
+.option-button.selected:hover {
+  background: #5a67d8;
+  border-color: #5a67d8;
+}
+
 /* Tally Results */
 .tally-row {
   margin-bottom: 20px;
