@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import './App.css';
 
-const API_BASE_URL = 'https://tally-server-alpha.vercel.app/api';
-const socket = io('https://tally-server-alpha.vercel.app');
+const API_BASE_URL = 'https://tally-1-8mql.onrender.com/api';
+const socket = io('https://tally-1-8mql.onrender.com');
 
 function App() {
   // User state
