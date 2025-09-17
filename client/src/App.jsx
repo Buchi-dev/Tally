@@ -54,6 +54,50 @@ function App() {
           options: ["Very dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Very satisfied", "N/A (Never reported)"]
         }
       }
+    },
+    D: {
+      title: "User Preferences and Needs",
+      questions: {
+        14: "How important is it for you to know when a water fountain was last serviced/cleaned?",
+        15: "How important is it for you to have more water fountains available on campus?",
+        16: "How important is it for you to have water bottle filling stations in addition to traditional fountains?"
+      },
+      options: ["Not important at all", "Slightly important", "Moderately important", "Very important", "Extremely important"]
+    },
+    E: {
+      title: "Health and Usage Impact",
+      questions: {
+        17: "I trust the campus water fountains to provide safe drinking water",
+        18: "I would use water fountains more often if I was confident about water quality",
+        19: "Water fountain quality affects my daily hydration habits on campus",
+        20: "I believe improving water fountains would benefit the campus community"
+      },
+      options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+    },
+    F: {
+      title: "Alternative Water Sources",
+      questions: {
+        21: "How often do you bring your own water bottle instead of using campus fountains?",
+        22: "How often do you purchase bottled water instead of using campus fountains?"
+      },
+      options: ["Never", "Rarely", "Sometimes", "Often", "Always"]
+    },
+    Demographics: {
+      title: "Demographics (Optional)",
+      questions: {
+        23: {
+          text: "What is your role on campus?",
+          options: ["Student", "Graduate student", "Faculty", "Staff", "Visitor"]
+        },
+        24: {
+          text: "How long have you been on SMU campus?",
+          options: ["Less than 1 year", "1-2 years", "3-4 years", "5+ years"]
+        }
+      }
+    },
+    Comments: {
+      question: 25,
+      schools: ["SEAIT", "SAB", "SHANS", "STEH", "SHS"]
     }
   };
 
