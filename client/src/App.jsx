@@ -271,6 +271,7 @@ function App() {
                     key={option}
                     onClick={() => handleOptionClick(questionNum, option)}
                     className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
+                    disabled={answers[questionNum] && answers[questionNum] !== option}
                   >
                     {option}
                   </button>
@@ -298,6 +299,7 @@ function App() {
                       key={option}
                       onClick={() => handleOptionClick(questionNum, option)}
                       className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
+                      disabled={answers[questionNum] && answers[questionNum] !== option}
                     >
                       {option}
                     </button>
@@ -317,6 +319,7 @@ function App() {
                       key={option}
                       onClick={() => handleOptionClick(questionNum, option)}
                       className={`option-button${answers[questionNum] === option ? ' selected' : ''}`}
+                      disabled={answers[questionNum] && answers[questionNum] !== option}
                     >
                       {option}
                     </button>
